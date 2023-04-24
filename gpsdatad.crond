@@ -1,0 +1,7 @@
+0  6	* * 6	root	backup.mysql agrisystema
+10 6	* * 6	root	backup.dir /var/www/agrisystema.com
+12 6	* * 6	root	backup.dir /home/agrsys/gpsdata_server
+15 6	* * 6	root	/home/agrsys/backups.sh
+*/10 *	* * *	root	ps ax | grep -v grep | grep gpsdata_server | ifne -n mail -s '[GpsData_Server] Morto' $MAILTO > /dev/null
+21 6	*/3 * *	root	cp /var/www/agrisystema.com/webroot/gpsdata_v2/data.txt /var/www/agrisystema.com/webroot/gpsdata_v2/data.bak.txt
+22 6	*/3 * *	root	echo "data moved in data.bak.txt" > /var/www/agrisystema.com/webroot/gpsdata_v2/data.txt

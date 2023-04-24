@@ -1,0 +1,30 @@
+{
+  "name": "gpsdata-server",
+  "version": "0.0.1",
+  "description": "NodeJs daemon for remote data acquisitions from mobile devices",
+  "main": "server.http.js",
+  "directories": {
+    "doc": "doc"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:stefanocudini/gpsdata-server.git"
+  },
+  "keywords": [
+    "gps",
+    "maps",
+    "daemon",
+    "bash",
+    "server",
+    "websockets"
+  ],
+  "author": "Stefano Cudini",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/stefanocudini/gpsdata-server/issues"
+  },
+  "homepage": "https://github.com/stefanocudini/gpsdata-server"
+}

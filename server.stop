@@ -1,0 +1,8 @@
+#!/bin/bash
+
+if [ -f server.pid ]; then
+	kill -9 $(cat server.pid)
+	rm server.pid
+else
+	echo "server non in esecuzione"
+fi

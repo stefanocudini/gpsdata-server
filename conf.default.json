@@ -1,0 +1,27 @@
+{
+	"putbind": "0.0.0.0",
+	"putport": 60990,
+	"puttimeo": 20000,
+	"putmaxdev": 100,
+	"putuser": "gps",
+	"putpass": "gps",
+	"putboards": {
+		"0001": 0,
+		"0002": 1,
+		"0003": 1,
+		"9999": 1
+	},
+	"parser": {
+		"host": "localhost",
+		"port": 80,
+		"path": "/gpsdata_server/gpsdata_v2/index.php",
+		"bin": "/usr/bin/php",
+		"args": ["/home/agrsys/gpsdata_v2/cli.php"]
+	},
+	"logpackets": true,
+	"logsfile": {
+		"server": "/var/log/gpsdata_server/server.log",
+		"packets": "/var/log/gpsdata_server/packets.log",
+		"auth": "/var/log/gpsdata_server/auth.log"
+	}
+}

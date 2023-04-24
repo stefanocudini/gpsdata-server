@@ -1,0 +1,128 @@
+#!/bin/bash
+# Copyright 2014 stefano.cudini@gmail.com
+# 	https://opengeo.tech
+# Nodejs Forever Demonizer with a low privilege user, official code:
+# 	https://gist.github.com/stefanocudini/6116527
+# Requirements:
+# 	https://github.com/nodejitsu/forever
+#
+### BEGIN INIT INFO
+# Provides:             gpsdata_server
+# Required-Start:       $syslog $remote_fs
+# Required-Stop:        $syslog $remote_fs
+# Should-Start:         $local_fs
+# Should-Stop:          $local_fs
+# Default-Start:        2 3 4 5
+# Default-Stop:         0 1 6
+# Short-Description:    Forever Demonizer with a low privilege user 
+# Description:          Forever Demonizer with a low privilege user 
+### END INIT INFO
+#
+. /lib/lsb/init-functions
+
+NODE_BIN_DIR=/opt/node/bin
+NODE_PATH=/opt/node/lib/node_modules
+PATH=$NODE_BIN_DIR:$PATH
+export NODE_PATH=$NODE_PATH
+
+APPDIR=/home/agrsys/gpsdata_server
+APPFILE=server.http.js
+CONF=$APPDIR/conf.json
+#NODE_OPTS="--always-compact"
+
+DAEMON_NAME=gpsdata_server
+DAEMON_USER=agrsys
+
+FOREVER_PID="${APPDIR}/${APPFILE}_forever.pid"
+LOGERR=/var/log/$DAEMON_NAME/server.err
+LOGOUT=/dev/null
+
+DAEMON_PID=/var/run/$DAEMON_NAME.pid
+DAEMON_LOG=/dev/null
+DAEMON_BIN=$(readlink -f $NODE_BIN_DIR/forever)
+DAEMON_OPTS="--pidFile $FOREVER_PID --sourceDir $APPDIR -a -l $DAEMON_LOG "\
+"-c 'node --expose-gc --always-compact' -e $LOGERR -o $LOGOUT --minUptime 5000 --spinSleepTime 2000 start $APPFILE $CONF"
+
+#TODO ottimizzazione utilizzo ram:
+#node --expose-gc --always-compact
+
+FOREVER_DIR=$(bash <<< "echo ~$DAEMON_USER")"/.forever"
+
+if [ ! -d "$FOREVER_DIR" ]; then
+    echo "make dir: $FOREVER_DIR"
+    mkdir -p "$FOREVER_DIR"
+    chown $DAEMON_USER:$DAEMON_USER "$FOREVER_DIR"
+    chmod 0775 "$FOREVER_DIR"
+fi
+
+if [ ! -d "/var/log/$DAEMON_NAME" ]; then
+    echo "make dir: /var/log/$DAEMON_NAME"    
+    mkdir -p "/var/log/$DAEMON_NAME"
+    chown $DAEMON_USER:$DAEMON_USER "/var/log/$DAEMON_NAME"
+    chmod 0750 "/var/log/$DAEMON_NAME"
+fi
+
+start() {
+	echo "Starting $DAEMON_NAME as user: $DAEMON_USER"
+    #--background
+    # start-stop-daemon --start --pidfile $DAEMON_PID \
+    #     --make-pidfile --chuid $DAEMON_USER \
+    #     --exec $DAEMON_BIN -- $DAEMON_OPTS
+    su - $DAEMON_USER -c "$DAEMON_BIN $DAEMON_OPTS"
+    echo $! > $DAEMON_PID
+    
+    RETVAL=$?
+}
+
+stop() {
+    if [ -f $DAEMON_PID ]; then
+		echo "Shutting down $DAEMON_NAME"
+        #--background
+		# start-stop-daemon --stop --pidfile $DAEMON_PID \
+		# 		    --retry 300 \
+		# 		    --user $DAEMON_USER \
+        #           --exec $DAEMON_BIN -- "stop $APPFILE"
+        su - $DAEMON_USER -c "$DAEMON_BIN stop $APPFILE"
+        rm -f $DAEMON_PID $FOREVER_PID
+
+        date +"[%d-%m-%Y %H:%M:%S] server stop" >> /var/log/$DAEMON_NAME/server.log
+        
+        RETVAL=$?
+    else
+		echo "$DAEMON_NAME is not running."
+		RETVAL=0
+    fi
+}
+
+restart() {
+    echo "Restarting $DAEMON_NAME"
+    stop
+    start
+    #TODO forever restart
+}
+
+status() {
+    echo "Status for $DAEMON_NAME:"
+    su - $DAEMON_USER -c "$DAEMON_BIN list"
+    RETVAL=$?
+}
+
+case "$1" in
+    start)
+        start
+        ;;
+    stop)
+        stop
+        ;;
+    status)
+        status
+        ;;
+    restart)
+        restart
+        ;;
+    *)
+        echo "Usage: {start|stop|status|restart}"
+        exit 1
+        ;;
+esac
+exit $RETVAL

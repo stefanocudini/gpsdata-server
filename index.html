@@ -1,0 +1,80 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"> 
+<html xmlns="https://www.w3.org/1999/xhtml"> 
+<head> 
+<title>GPS streaming daemon</title> 
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
+<!--link href="style.css" rel="stylesheet" type="text/css" /-->
+<style>
+/*	@import url('style.css'); */
+body {
+	background: #ddd;
+}
+img {
+	clear: both;
+	border: 10px solid #fff;
+	margin: 0;
+}
+h2 {
+	background-color: #eee;
+	padding: 1em;
+	margin: 1em 0 0 0;
+}
+#copy {
+	position:fixed;
+	z-index:1000;
+	right:150px;
+	top:-8px;
+	font-size:.85em;
+	padding:8px 8px 2px 8px;
+	background: #eee;
+	border: 2px solid #737c85;		
+	border-radius:.7em;
+	opacity: 0.9;
+	box-shadow:0 0 8px #5f7182;
+	color:#333;
+}
+#copy a {
+	color:#222;
+	text-decoration:none
+}
+#copy a:hover {
+	color:#999
+}
+</style>
+</head>
+
+<body>
+	<div>
+		<h2><a name="architecture" id="architecture">Data Server - Daemon Architecture</a></h2>
+		<p>
+			Realtime GPS Streaming Daemon in <b>NodeJS</b>.
+			<br />
+			Remote data collection system for <a href="https://www.agrisystema.com/" target="_blank">Agrisystema</a>
+		</p>
+		<img src="doc/gps-data-server-schema.png" alt="gps data server" />
+	</div>
+	<div>
+		<h2><a name="backend" id="backend">GPS Data Server - Back-end</a></h2>
+		<div>
+			<b>Real-time monitoring</b> of data acquisitions, Logs and Statistics
+		</div>
+		<img src="doc/screenshots/Schermata-5.png" />
+		<img src="doc/screenshots/Schermata-6.png" />
+	</div>
+	<div>
+		<h2><a name="frontend" id="frontend">Agrisystema - Telemetry System</a></h2>
+		<div>
+			<b>Front-end</b> for accounts and devices management
+		</div>		
+		<img src="doc/screenshots/Schermata-0.png" />
+		<img src="doc/screenshots/Schermata-1.png" />
+		<img src="doc/screenshots/Schermata-2.png" />
+		<img src="doc/screenshots/Schermata-3.png" />
+		<img src="doc/screenshots/Schermata-4.png" />
+	</div>
+
+	<div id="copy">
+		<a href="https://opengeo.tech/">Opengeo.tech</a> &bull; <a rel="author" href="https://opengeo.tech/stefano-cudini/">Stefano Cudini</a>
+	</div>
+</body>
+</html>

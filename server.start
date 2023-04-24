@@ -1,0 +1,6 @@
+#!/bin/bash
+
+#su -c "node server.http.js" agrsys &> /dev/null &
+#php server.php 0.0.0.0:9900 &> server.php.log &
+node server.http.js &> /dev/null &
+echo $! > server.pid

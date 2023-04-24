@@ -1,0 +1,31 @@
+/var/log/gpsdata_server/packets.log
+{
+	daily
+	rotate 5
+	missingok
+	compress
+	delaycompress
+	notifempty
+	create 775 root agrsys
+}
+
+/var/log/gpsdata_server/auth.log
+{
+	weekly
+	rotate 8
+	missingok
+	nocompress
+	notifempty
+	create 775 root agrsys
+}
+
+/var/log/gpsdata_server/server.err
+/var/log/gpsdata_server/server.log
+{
+	monthly
+	rotate 3
+	missingok
+	nocompress
+	notifempty
+	create 775 root agrsys
+}

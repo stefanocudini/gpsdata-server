@@ -1,0 +1,7 @@
+
+
+secondi in un mese: 2592000
+
+per http auth potrebbe essere utile:
+http://www.sitepoint.com/http-authentication-in-node-js/
+npm install http-auth
